@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f9;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 22px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .revenue {
+            font-size: 26px;
+            font-weight: bold;
+            color: #27ae60;
+        }
+
+        .section-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+            border-left: 5px solid #3498db;
+            padding-left: 10px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 12px;
+            margin: 8px 0;
+            background: #f9f9f9;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .movie-name {
+            font-weight: bold;
+        }
+
+        .count {
+            background: #3498db;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    🎬 Admin Dashboard
+</div>
+
+<div class="container">
+
+    <div class="card">
+        <div class="section-title">Total Revenue</div>
+        <div class="revenue">₹{{ total_revenue }}</div>
+    </div>
+
+    <div class="card">
+        <div class="section-title">Popular Movies</div>
+
+        <ul>
+            {% for movie in popular_movies %}
+                <li>
+                    <span class="movie-name">{{ movie.movie_name }}</span>
+                    <span class="count">{{ movie.count }} bookings</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+     <div style="text-align:center; margin-top:20px;">
+        <a href="/admin/" style="
+            display:inline-block;
+            padding:10px 20px;
+            background:#2c3e50;
+            color:white;
+            text-decoration:none;
+            border-radius:6px;
+            font-size:14px;
+        ">
+            ⬅ Back to Admin Panel
+        </a>
+    </div>
+</div>
+</body>
+</html>

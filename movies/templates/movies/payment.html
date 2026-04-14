@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 350px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .amount {
+            font-size: 28px;
+            font-weight: bold;
+            color: #4CAF50;
+            margin: 10px 0;
+        }
+
+        .order {
+            font-size: 14px;
+            color: gray;
+            margin-bottom: 20px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #pay-btn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        #pay-btn:hover {
+            background: #45a049;
+        }
+
+        #demo-btn {
+            background: #2196F3;
+            color: white;
+        }
+
+        #demo-btn:hover {
+            background: #1976D2;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>💳 Complete Payment</h2>
+
+    <div class="amount">₹{{ amount }}.00</div>
+    <div class="order">Order ID: {{ order.id }}</div>
+
+    <button id="pay-btn">Pay Now</button>
+    <button id="demo-btn">Simulate Payment (Demo)</button>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+document.getElementById("demo-btn").onclick = function(){
+    fetch("/verify-payment/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(() => {
+        window.location.href = "/booking/confirmation/";
+    });
+};
+
+document.getElementById("pay-btn").onclick = function(e){
+
+    var options = {
+        "key": "{{ key }}",
+        "currency": "INR",
+        "name": "Movie Booking",
+        "amount": "{{ order.amount|default:'0' }}",
+        "order_id": "{{ order.id|default:'' }}",
+
+        "handler": function (response){
+            fetch("/verify-payment/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(() => {
+                window.location.href = "/booking/confirmation/";
+            });
+        },
+
+        "modal": {
+            "ondismiss": function(){
+                alert("Payment cancelled. Booking not confirmed.");
+            }
+        }
+    };
+
+    var rzp = new Razorpay(options);
+    rzp.open();
+
+    e.preventDefault();
+};
+</script>
+
+</body>
+</html>

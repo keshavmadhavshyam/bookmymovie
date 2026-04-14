@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Movie Ticket</title>
+    <style>
+        body { font-family: Arial; background: #f5f5f5; padding: 50px; }
+        .container { background: #fff; padding: 30px; border-radius: 10px; max-width: 400px; margin: auto; box-shadow: 0 0 10px #ccc; }
+        input, select { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
+        button { width: 100%; padding: 10px; background: #4CAF50; color: white; border: none; border-radius: 5px; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Book Your Movie Ticket 🎬</h2>
+        <form method="POST" action="{% url 'reserve_seat_lock' %}">
+            {% csrf_token %}
+            <input type="email" name="email" placeholder="Your Email" required>
+            <input type="text" name="movie" value="{{ movie_name }}" readonly>
+            <select name="time" required>
+                <option value="">Select Show Time</option>
+                <option value="10 AM">10 AM</option>
+                <option value="1 PM">1 PM</option>
+                <option value="4 PM">4 PM</option>
+                <option value="7 PM">7 PM</option>
+                <option value="10 PM">10 PM</option>
+            </select>
+            <input type="text" name="seats" placeholder="Seats (e.g., C1,C2)" required>
+            <!-- <input type="text" name="payment_id" placeholder="Payment ID" required> -->
+            <input type="text" name="theater" placeholder="Theater Name" required>
+            <button type="submit">Confirm Booking</button>
+            <a href="/" style="display:block; margin-top:10px;">← Back to Home</a>
+        </form>
+    </div>
+</body>
+</html>

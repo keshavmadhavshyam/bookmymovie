@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Movie List</title>
+
+  <!-- ✅ ONLY ONE CSS LINK HERE -->
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}?v=20">
+</head>
+
+<body>
+<form method="GET">
+
+  <!-- Search -->
+  <div style="text-align:center; margin:20px;">
+      <input type="text" name="search" placeholder="Search movies..." 
+             value="{{ request.GET.search }}"
+             style="padding:10px; width:250px; border-radius:5px; border:1px solid #ccc;">
+      
+      <button type="submit" style="
+          padding:10px 15px;
+          background:#3498db;
+          color:white;
+          border:none;
+          border-radius:5px;
+          cursor:pointer;
+      ">
+          Search
+      </button>
+  </div>
+
+  <div class="filter-container">
+
+    <!-- Genres -->
+    <div class="filter-box">
+      <h3>Genres</h3>
+      {% for g in all_genres %}
+        <label>
+          <input type="checkbox" name="genre" value="{{ g.id }}"
+          {% if g.id|stringformat:"s" in selected_genres %}checked{% endif %}>
+          {{ g.name }} ({{ g.count }})
+        </label><br>
+      {% endfor %}
+    </div>
+
+    <!-- Languages -->
+    <div class="filter-box">
+      <h3>Languages</h3>
+      {% for l in all_languages %}
+        <label>
+          <input type="checkbox" name="language" value="{{ l.id }}"
+          {% if l.id|stringformat:"s" in selected_languages %}checked{% endif %}>
+          {{ l.name }} ({{ l.count }})
+        </label><br>
+      {% endfor %}
+    </div>
+
+    <!-- Sort -->
+    <div class="filter-box">
+      <h3>Sort By</h3>
+
+      <label>
+        <input type="radio" name="sort" value="rating_desc"
+        {% if request.GET.sort == "rating_desc" %}checked{% endif %}>
+        Rating (High to Low)
+      </label><br>
+
+      <label>
+        <input type="radio" name="sort" value="rating_asc"
+        {% if request.GET.sort == "rating_asc" %}checked{% endif %}>
+        Rating (Low to High)
+      </label><br>
+
+      <label>
+        <input type="radio" name="sort" value="date_desc"
+        {% if request.GET.sort == "date_desc" %}checked{% endif %}>
+        Latest
+      </label><br>
+
+      <label>
+        <input type="radio" name="sort" value="date_asc"
+        {% if request.GET.sort == "date_asc" %}checked{% endif %}>
+        Oldest
+      </label>
+    </div>
+
+  </div>
+
+  <div class="filter-btn">
+    <button type="submit">Apply Filters</button>
+  </div>
+
+</form>
+
+<hr>
+
+<div class="output-section">
+  <h2>Movie List</h2>
+
+  {% if page_obj %}
+  <div class="movie-container">
+    {% for movie in page_obj %}
+      <div class="movie-card">
+        <h3>{{ movie.title }}</h3>
+        <p>Rating: {{ movie.rating }}</p>
+
+        <a href="/movie/{{ movie.id }}/">
+          View Details
+        </a>
+
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>No movies found</p>
+{% endif %}
+
+<div class="pagination">
+  {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+  {% endif %}
+
+  <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+  {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">Next</a>
+  {% endif %}
+</div>
+
+</body>
+</html>

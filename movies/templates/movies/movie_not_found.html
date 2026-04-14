@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Not Found</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 350px;
+        }
+
+        .title {
+            font-size: 20px;
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+
+        .query {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="card">
+
+        <div class="title">❌ Movie Not Found</div>
+        <p>Try searching with a different name</p>
+
+        <p>We couldn't find "<span class="query">{{ query }}</span>"</p>
+
+        <a href="/" class="btn">⬅ Back to Home</a>
+
+    </div>
+</div>
+
+</body>
+</html>
