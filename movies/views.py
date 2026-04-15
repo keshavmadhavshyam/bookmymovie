@@ -53,7 +53,7 @@ def test_email(request):
 
     # Send email via Celery 
     send_booking_email.delay(
-        "nadardivya152@gmail.com",
+        "testproject0799@gmail.com",
         {
             "movie_name": booking.movie_name,
             "show_time": booking.show_time,
@@ -63,7 +63,7 @@ def test_email(request):
     )
 
     return render(request, 'movies/booking_confirmation.html', {
-        'email': "nadardivya152@gmail.com",
+        'email': "testproject0799@gmail.com",
         'movie_name': booking.movie_name,
         'show_time': booking.show_time,
         'seats': booking.seats,
@@ -135,6 +135,7 @@ def booking_view(request):
         movie_name = request.POST.get('movie')
         show_time = request.POST.get('time')
         seats = request.POST.get('seats')
+       
         theater = request.POST.get('theater')
 
         seat_numbers = seats.split(',')
@@ -163,7 +164,8 @@ def booking_view(request):
             seats=seats,
             #payment_id=payment_id,
             theater=theater,
-            email=user_email
+            email=user_email,
+            status="pending"
         )
 
         booking_data = {
@@ -172,8 +174,12 @@ def booking_view(request):
             'seats': seats,
             #'payment_id': payment_id,
             'theater': theater,
-            'email': user_email
+            'email': user_email,
+            status:"pending"
         }
+
+        request.session['booking_id'] = booking.id
+        return redirect('reserve_seat_lock')
 
         # Send email asynchronously
         return redirect('/pay/')
@@ -203,10 +209,41 @@ def movie_detail(request, id):
 
 client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
-def simple_payment(request):
-    booking = Booking.objects.latest('id') if Booking.objects.exists() else None  # get last booking
+# def simple_payment(request):
+#     booking = Booking.objects.latest('id') if Booking.objects.exists() else None  # get last booking
 
-    amount = 200  
+#     amount = 200  
+
+#     order = client.order.create({
+#         "amount": amount * 100,
+#         "currency": "INR",
+#         "receipt": str(booking.id)
+#     })
+
+#     Payment.objects.create(
+#         booking=booking,
+#         order_id=order['id'],
+#         status="created"
+#     )
+
+#     return render(request, "movies/payment.html", {
+#         "order": order,
+#         "key": settings.RAZORPAY_KEY_ID,
+#         "amount": amount
+#     })
+
+def simple_payment(request):
+    booking_id = request.session.get('booking_id')
+
+    if not booking_id:
+        return HttpResponse("No booking found ❌")
+
+    try:
+        booking = Booking.objects.get(id=booking_id)
+    except Booking.DoesNotExist:
+        return HttpResponse("Invalid booking ❌")
+
+    amount = 200
 
     order = client.order.create({
         "amount": amount * 100,
@@ -223,9 +260,9 @@ def simple_payment(request):
     return render(request, "movies/payment.html", {
         "order": order,
         "key": settings.RAZORPAY_KEY_ID,
-        "amount": amount
+        "amount": amount,
+        "booking_id": booking.id
     })
-
 from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def verify_payment(request):
@@ -252,7 +289,7 @@ def verify_payment(request):
             except Seat.DoesNotExist:
                 pass
 
-        send_booking_email.delay(
+        send_booking_email(
             booking.email,
             {
                 "movie_name": booking.movie_name,
@@ -289,7 +326,7 @@ def reserve_seat_lock(request):
                     })
 
                 seat.is_reserved = True
-                seat.reserved_by = request.user
+                seat.reserved_by = None
                 seat.reserved_at = timezone.now()
                 seat.save()
 
@@ -297,6 +334,25 @@ def reserve_seat_lock(request):
                 return render(request, 'movies/seat_error.html', {
                     'message': f"Seat {seat_name} not found ❌"
                 })
+            
+            user_email = request.POST.get('email')
+            movie_name = request.POST.get('movie')
+            show_time = request.POST.get('time')
+            seats = request.POST.get('seats')
+            theater = request.POST.get('theater')
+
+            # ✅ CREATE BOOKING HERE
+            booking = Booking.objects.create(
+                movie_name=movie_name,
+                show_time=show_time,
+                seats=seats,
+                theater=theater,
+                email=user_email,
+                status="pending"
+            )
+
+            # ✅ STORE IN SESSION
+            request.session['booking_id'] = booking.id
 
         return redirect('simple_payment')
 
@@ -326,3 +382,27 @@ def admin_dashboard(request):
         cache.set('dashboard_data', data, 300)
 
     return render(request, 'movies/admin_dashboard.html', data)
+
+def demo_payment_success(request):
+    booking_id = request.session.get('booking_id')
+
+    if not booking_id:
+        return HttpResponse("No booking found ❌")
+
+    booking = Booking.objects.get(id=booking_id)
+
+    booking.status = "success"
+    booking.save()
+
+    # ✅ Send email (NO .delay for demo)
+    send_booking_email(
+        booking.email,
+        {
+            "movie_name": booking.movie_name,
+            "show_time": booking.show_time,
+            "seats": booking.seats,
+            "theater": booking.theater,
+        }
+    )
+
+    return redirect('/booking-confirmation/')

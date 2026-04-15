@@ -1040,3 +1040,125 @@ Traceback (most recent call last):
     )
 movies.models.Booking.DoesNotExist: Booking matching query does not exist.
 "GET /booking/confirmation/ HTTP/1.1" 500 77704
+Internal Server Error: /booking/
+Traceback (most recent call last):
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\divya\movie_project\movies\views.py", line 180, in booking_view
+     return render(request, 'booking_confirmation.html', {
+            ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        'booking':booking
+        ^^^^^^^^^^^^^^^^^
+    })
+    ^^
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: booking_confirmation.html
+"POST /booking/?movie=With%20Love HTTP/1.1" 500 87705
+Internal Server Error: /booking/
+Traceback (most recent call last):
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\divya\movie_project\movies\views.py", line 180, in booking_view
+     return render(request, 'booking_confirmation.html', {
+            ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        'booking':booking
+        ^^^^^^^^^^^^^^^^^
+    })
+    ^^
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: booking_confirmation.html
+"POST /booking/?movie=With%20Love HTTP/1.1" 500 87705
+Internal Server Error: /booking/
+Traceback (most recent call last):
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\divya\movie_project\movies\views.py", line 180, in booking_view
+     return render(request, 'booking_confirmation.html', {
+            ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        'booking':booking
+        ^^^^^^^^^^^^^^^^^
+    })
+    ^^
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: booking_confirmation.html
+"POST /booking/?movie=With%20Love HTTP/1.1" 500 87705
+Internal Server Error: /movie/1/
+Traceback (most recent call last):
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\divya\movie_project\movies\views.py", line 199, in movie_detail
+    booking = Booking.objects.filter(email=request.user.email).latest('id')
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1133, in latest
+    return self.reverse()._earliest(*fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1116, in _earliest
+    return obj.get()
+           ~~~~~~~^^
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 639, in get
+    raise self.model.DoesNotExist(
+        "%s matching query does not exist." % self.model._meta.object_name
+    )
+movies.models.Booking.DoesNotExist: Booking matching query does not exist.
+Internal Server Error: /movie/1/
+Traceback (most recent call last):
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\divya\movie_project\movies\views.py", line 199, in movie_detail
+    booking = Booking.objects.filter(email=request.user.email).latest('id')
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1133, in latest
+    return self.reverse()._earliest(*fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1116, in _earliest
+    return obj.get()
+           ~~~~~~~^^
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 639, in get
+    raise self.model.DoesNotExist(
+        "%s matching query does not exist." % self.model._meta.object_name
+    )
+movies.models.Booking.DoesNotExist: Booking matching query does not exist.
+"GET /movie/1/ HTTP/1.1" 500 81213
+Internal Server Error: /movie/1/
+Traceback (most recent call last):
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\divya\movie_project\movies\views.py", line 199, in movie_detail
+    booking = Booking.objects.filter(email=request.user.email).latest('id')
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1133, in latest
+    return self.reverse()._earliest(*fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1116, in _earliest
+    return obj.get()
+           ~~~~~~~^^
+  File "C:\Users\divya\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 639, in get
+    raise self.model.DoesNotExist(
+        "%s matching query does not exist." % self.model._meta.object_name
+    )
+movies.models.Booking.DoesNotExist: Booking matching query does not exist.
+"GET /movie/1/ HTTP/1.1" 500 81213
